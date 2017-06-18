@@ -42,7 +42,7 @@
     </project-components>
     <actions>
         <!-- Add your actions here -->
-        <action class="com.lovely3x.jsr.listener.GenerateAction" id="JSRGenerateAction"
+        <action class="com.lovely3x.jsr.action.GenerateAction" id="JSRGenerateAction"
                 text="Rebuild resource" description="Generates source code from resource files"
                 icon="/hammer.png">
             <add-to-group group-id="ToolbarRunGroup" anchor="first"/>

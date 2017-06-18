@@ -147,7 +147,7 @@ public class ProjectFileChangeListener implements ProjectComponent {
         return false;
     }
 
-    protected ProjectFileChangeListener(Project project) {
+    public ProjectFileChangeListener(Project project) {
         myProject = project;
 
         this.mAbsoluteJSRJSONFile = new File(myProject.getBasePath(), JSR_JSON_FILE).getAbsolutePath();
