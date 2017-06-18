@@ -5,9 +5,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.*;
+import com.intellij.openapi.vfs.ex.VirtualFileManagerEx;
 import com.lovely3x.jsr.utils.StreamUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +22,11 @@ import java.util.*;
  * Created by lovely3x on 2017/6/16.
  */
 public class ProjectFileChangeListener implements ProjectComponent {
+
+
+    public static final Key<ProjectFileChangeListener> USER_DATA_KEY_JSR_GENERATOR = Key.create("user.data.key.jsr");
+
+    public static final Logger LOG = Logger.getInstance("#com.lovely3x.jsr.listener.ProjectFileChangeListener");
 
     private static final boolean DEBUG = true;
 
@@ -204,12 +212,14 @@ public class ProjectFileChangeListener implements ProjectComponent {
                 }
             }
         });
+
+        project.putUserData(USER_DATA_KEY_JSR_GENERATOR, this);
     }
 
     /**
      * 更新jsr的配置文件
      */
-    private void updateConfiguration() {
+    public void updateConfiguration() {
         //todo 后期可以考虑一下就把这些全读完。
         //而不用每次都需要去打开一次文件
         updateResDir();//更新资源文件放置
@@ -364,7 +374,7 @@ public class ProjectFileChangeListener implements ProjectComponent {
      *
      * @param reScanFiles 在生成源码前,是否需要先扫描文件
      */
-    private void generateSourceFile(boolean reScanFiles) {
+    public void generateSourceFile(boolean reScanFiles) {
         if (reScanFiles) scanResources(false);
 
         try {
@@ -406,7 +416,8 @@ public class ProjectFileChangeListener implements ProjectComponent {
 
             fWriter.write(content);
             fWriter.close();
-
+            VirtualFileManagerEx.getInstance()
+                    .refreshAndFindFileByUrl("file://" + file.getAbsolutePath());
             log("Source file generated at " + file);
 
         } catch (IOException e) {
@@ -546,7 +557,9 @@ public class ProjectFileChangeListener implements ProjectComponent {
     }
 
     private void log(String msg) {
-        if (DEBUG) System.out.println(msg);
+        if (DEBUG) {
+            LOG.debug(msg);
+        }
     }
 
 }

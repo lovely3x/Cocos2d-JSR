@@ -1,22 +1,27 @@
 <idea-plugin version="2">
     <id>com.your.company.unique.plugin.id</id>
-    <name>Plugin display name here</name>
-    <version>1.0</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Cocos2d-JSR</name>
+    <version>1.0 beta</version>
+    <vendor email="lovely3x@163.com" url="http://www.lovely3x.com">lovely3x</vendor>
 
     <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Cocos2d-jsr is a resource auto generator plugin for WebStorm.
     ]]></description>
 
     <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+      First version.
     ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="141.0"/>
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -26,6 +31,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+
     </extensions>
 
     <project-components>
@@ -36,6 +42,12 @@
     </project-components>
     <actions>
         <!-- Add your actions here -->
+        <action class="com.lovely3x.jsr.listener.GenerateAction" id="JSRGenerateAction"
+                text="Rebuild resource" description="Generates source code from resource files"
+                icon="/hammer.png">
+            <add-to-group group-id="ToolbarRunGroup" anchor="first"/>
+
+        </action>
     </actions>
 
 </idea-plugin>
